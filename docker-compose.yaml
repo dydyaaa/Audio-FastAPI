@@ -1,14 +1,20 @@
 services:
-  # app:
-  #   build: .
-  #   ports:
-  #     - "8000:8000"
-  #   env_file:
-  #     - .env
-  #   depends_on:
-  #     - postgres
-  #   volumes:
-  #     - ./uploads:/app/uploads 
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      sh -c "alembic upgrade head && uvicorn src.main:app --host 0.0.0.0 --port 8000"
+    volumes:
+      - ./uploads:/app/uploads
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - UPLOAD_DIR=/app/uploads
+    depends_on:
+      audio_db:
+        condition: service_healthy
 
   audio_db:
     container_name: audio_db
@@ -21,6 +27,11 @@ services:
       - 5432:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-user}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 volumes:
   postgres_data:
