@@ -1,10 +1,5 @@
 from sqlalchemy import Column, Integer, String, Boolean
-from sqlalchemy.ext.asyncio import AsyncAttrs
-from sqlalchemy.orm import DeclarativeBase
-
-
-class Base(AsyncAttrs, DeclarativeBase):
-    pass
+from src.models import Base
 
 class User(Base):
     __tablename__ = "user"

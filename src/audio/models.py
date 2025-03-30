@@ -1,13 +1,8 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.ext.asyncio import AsyncAttrs
-from sqlalchemy.orm import DeclarativeBase
-
-
-class Base(AsyncAttrs, DeclarativeBase):
-    pass
+from src.models import Base
 
 class AudioFile(Base):
-    __tablename__ = "audio_files"
+    __tablename__ = "audio_file"
 
     id = Column(Integer, primary_key=True)
     name = Column(String(255), nullable=False)

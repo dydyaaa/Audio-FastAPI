@@ -3,7 +3,9 @@ import asyncio
 from sqlalchemy.ext.asyncio import create_async_engine
 from alembic import context
 from src.config import settings
-from src.auth.models import Base  # Импортируем базовую модель
+from src.models import Base 
+from src.auth.models import User 
+from src.audio.models import AudioFile
 
 config = context.config
 config.set_main_option("sqlalchemy.url", settings.SQLALCHEMY_DATABASE_URI)

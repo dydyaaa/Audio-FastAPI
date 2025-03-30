@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from src.database import engine
+from src.audio.router import router as audio_router
 from src.auth.router import router as auth_router
 import logging
 from logging.config import fileConfig
@@ -14,6 +15,7 @@ app = FastAPI(
 )
 
 app.include_router(auth_router, prefix="/auth", tags=["auth"])
+app.include_router(audio_router, prefix="/audio", tags=["audio"])
 
 @app.on_event("startup")
 async def startup_event():

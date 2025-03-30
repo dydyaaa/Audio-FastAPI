@@ -9,7 +9,7 @@ services:
   #   depends_on:
   #     - postgres
   #   volumes:
-  #     - ./uploads:/app/uploads  # Локальное хранилище файлов
+  #     - ./uploads:/app/uploads 
 
   audio_db:
     container_name: audio_db
