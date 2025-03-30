@@ -6,9 +6,10 @@ from src.super_users.utils import get_super_user
 from src.super_users.service import SuperUserService
 from src.super_users.schemas import UserInfo, AudioFileInfo
 
+
 router = APIRouter()
 
-@router.get("/get_user_info/{user_id}/", response_model=UserInfo)
+@router.get("/get_user_info/{user_id}", response_model=UserInfo)
 async def get_user(
     user_id: int,
     current_user: User = Depends(get_super_user),
@@ -17,7 +18,7 @@ async def get_user(
     """Получить информацию о пользователе по ID (только для суперпользователей)."""
     return await SuperUserService.get_user_info(db, user_id)
 
-@router.get("/get_user_audio/{user_id}/", response_model=list[AudioFileInfo])
+@router.get("/get_user_audio/{user_id}", response_model=list[AudioFileInfo])
 async def get_user_audio(
     user_id: int,
     current_user: User = Depends(get_super_user),
@@ -26,7 +27,7 @@ async def get_user_audio(
     """Получить список аудиофайлов пользователя по ID (только для суперпользователей)."""
     return await SuperUserService.get_user_audio_files(db, user_id)
 
-@router.delete("/delete_user/{user_id}/", status_code=204)
+@router.delete("/delete_user/{user_id}", status_code=204)
 async def delete_user(
     user_id: int,
     current_user: User = Depends(get_super_user),

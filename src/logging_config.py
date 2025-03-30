@@ -1,13 +1,13 @@
 import logging
 import aiohttp
-from logging import Filter
 import re
+from logging import Filter
+from src.config import settings
 
 
 class WerkzeugFilter(Filter):
     """Фильтр для очистки логов uvicorn (аналог werkzeug)."""
     def filter(self, record):
-        # Убираем IP-адрес и дату в квадратных скобках (адаптировано для uvicorn)
         record.msg = re.sub(r'^\d+\.\d+\.\d+\.\d+ - - \[\d+\/\w+\/\d+[:\d+ ]+\] ', '', record.msg)
         record.msg = record.msg.rstrip('- ')
         return True
@@ -15,11 +15,10 @@ class WerkzeugFilter(Filter):
 
 class LokiHandler(logging.Handler):
     """Асинхронный handler для отправки логов в Loki."""
-    def __init__(self, url='http://sogazik.ru:3100/loki/api/v1/push', labels=None):
+    def __init__(self, url=settings.LOKI_URL, labels=None):
         super().__init__()
         self.url = url
         self.labels = labels or {"job": "fastapi_app"}
-        # Сессия aiohttp создается при старте приложения
 
     async def emit_async(self, record):
         """Асинхронная отправка логов в Loki."""
@@ -36,7 +35,7 @@ class LokiHandler(logging.Handler):
 
             async with aiohttp.ClientSession() as session:
                 async with session.post(self.url, json=payload, headers={"Content-Type": "application/json"}) as response:
-                    if response.status != 204:  # Loki возвращает 204 при успехе
+                    if response.status != 204:
                         logging.error(f"Failed to send log to Loki: {response.status}")
         except Exception as e:
             self.handleError(record)
@@ -53,5 +52,4 @@ class LokiHandler(logging.Handler):
 
 def setup_logging(test_mode: bool):
     """Инициализация логирования."""
-    # Конфигурация теперь в logging.ini, здесь только регистрация хэндлеров
-    logging.getLogger('').addHandler(LokiHandler())  # Добавляем LokiHandler вручную, если нужно
+    logging.getLogger('').addHandler(LokiHandler())

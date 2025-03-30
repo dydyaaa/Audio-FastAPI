@@ -7,6 +7,7 @@ from src.auth.models import User
 from src.audio.models import AudioFile
 import os
 
+
 logger = logging.getLogger("app.super_users")
 
 class SuperUserService:
@@ -47,7 +48,6 @@ class SuperUserService:
             logger.warning(f"Попытка удалить суперпользователя {user.email}")
             raise HTTPException(status_code=403, detail="Нельзя удалить суперпользователя")
 
-        # Удаляем все аудиофайлы пользователя
         result = await db.execute(select(AudioFile).filter_by(user_id=user_id))
         audio_files = result.scalars().all()
         for audio in audio_files:
@@ -58,12 +58,10 @@ class SuperUserService:
             except Exception as e:
                 logger.error(f"Ошибка при удалении файла {audio.file_path}: {str(e)}")
         
-        # Удаляем записи об аудиофайлах из базы
         if audio_files:
             await db.execute(
                 text("DELETE FROM audio_files WHERE user_id = :user_id"), 
                 {"user_id": user_id})
-        # Удаляем пользователя
         await db.delete(user)
         await db.commit()
         

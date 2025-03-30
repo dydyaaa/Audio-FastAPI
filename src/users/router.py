@@ -6,9 +6,10 @@ from src.auth.utils import get_current_user
 from src.users.service import UserService
 from src.users.schemas import UserInfo, UserUpdate
 
+
 router = APIRouter()
 
-@router.get("/me/", response_model=UserInfo)
+@router.get("/me", response_model=UserInfo)
 async def get_me(
     user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
@@ -16,7 +17,7 @@ async def get_me(
     """Получить информацию о текущем пользователе."""
     return await UserService.get_user_info(db, user)
 
-@router.post("/me/", response_model=UserInfo)
+@router.post("/me", response_model=UserInfo)
 async def update_me(
     user_update: UserUpdate,
     user: User = Depends(get_current_user),

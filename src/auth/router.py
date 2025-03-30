@@ -14,7 +14,7 @@ def login():
         "auth_url": f"{settings.YANDEX_AUTH_URL}?response_type=code&client_id={settings.YANDEX_CLIENT_ID}"
     }
     
-@router.get("/callback/", response_model=TokenResponse)
+@router.get("/callback", response_model=TokenResponse)
 async def auth_callback(code: str, db: AsyncSession = Depends(get_db)):
     try:
         yandex_id, email = await AuthService.yandex_callback(code)
@@ -26,5 +26,3 @@ async def auth_callback(code: str, db: AsyncSession = Depends(get_db)):
             }
     except HTTPException as e:
         raise e
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Unexpected error: {str(e)}")

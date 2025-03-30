@@ -1,14 +1,13 @@
+import logging
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
-from fastapi.staticfiles import StaticFiles
-from src.database import engine
 from src.audio.router import router as audio_router
 from src.auth.router import router as auth_router
 from src.users.router import router as users_router
 from src.super_users.router import router as super_users_router
-import logging
 from logging.config import fileConfig
 from src.logging_config import setup_logging
+
 
 app = FastAPI(
     title="Referral System API",

@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from src.models import Base
 
+
 class AudioFile(Base):
     __tablename__ = "audio_file"
 

@@ -8,7 +8,7 @@ from src.auth.models import User
 
 router = APIRouter()
 
-@router.post("/upload/", response_model=AudioResponse)
+@router.post("/upload", response_model=AudioResponse)
 async def upload_audio(
     file: UploadFile = File(...),
     name: str = Form(...),
@@ -18,7 +18,7 @@ async def upload_audio(
     """Загружает новый аудио файл."""
     return await AudioService.upload_audio(db, file, name, user)
 
-@router.get("/files/", response_model=list[AudioResponse])
+@router.get("/files", response_model=list[AudioResponse])
 async def get_audio_files(
     user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)

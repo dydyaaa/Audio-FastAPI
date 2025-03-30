@@ -23,7 +23,7 @@ class AuthService:
             })
 
             if token_response.status_code != 200:
-                logger.error(f"Token request failed: {token_response.text}")
+                logger.error(f"Ошибка получения токена: {token_response.text}")
                 raise HTTPException(status_code=400, detail="Ошибка получения токена")
 
             token_data = token_response.json()
@@ -34,7 +34,7 @@ class AuthService:
             })
 
             if user_response.status_code != 200:
-                logger.error(f"User info request failed: {user_response.text}")
+                logger.error(f"Ошибка получения данных пользователя: {user_response.text}")
                 raise HTTPException(status_code=400, detail="Ошибка получения данных пользователя")
 
             user_data = user_response.json()
@@ -49,7 +49,7 @@ class AuthService:
         existing_user = result.scalars().first()
         
         if existing_user:
-            logger.info(f'User already exists: {existing_user.email}')
+            logger.info(f'Пользователь уже существует: {existing_user.email}')
             jwt_token = create_access_token(str(existing_user.id))
             return existing_user, jwt_token
         
@@ -57,7 +57,7 @@ class AuthService:
         db.add(new_user)
         await db.commit()
         await db.refresh(new_user)
-        logger.info(f'User registered successfully: {email}')
+        logger.info(f'Пользователь успешно зарегистрирован: {email}')
         jwt_token = create_access_token(str(new_user.id))
         
         return new_user, jwt_token

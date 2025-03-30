@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class AudioCreate(BaseModel):
     name: str
 

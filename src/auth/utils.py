@@ -8,6 +8,7 @@ from sqlalchemy.future import select
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from src.database import get_db
 
+
 security = HTTPBearer()
 
 def create_access_token(user_id: str) -> str:
