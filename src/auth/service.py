@@ -45,7 +45,7 @@ class AuthService:
         
     @staticmethod
     async def register_or_login(db: AsyncSession, yandex_id: str, email: str) -> tuple[User, str]:
-        result = await db.execute(select(User).filter_by(email=email))
+        result = await db.execute(select(User).filter_by(yandex_id=yandex_id))
         existing_user = result.scalars().first()
         
         if existing_user:
