@@ -7,6 +7,7 @@ from src.users.router import router as users_router
 from src.super_users.router import router as super_users_router
 from logging.config import fileConfig
 from src.logging_config import setup_logging
+from prometheus_fastapi_instrumentator import Instrumentator
 
 
 app = FastAPI(
@@ -14,6 +15,8 @@ app = FastAPI(
     description="API для управления реферальной системой",
     version="1.0.0",
 )
+
+instrumentator = Instrumentator().instrument(app)
 
 app.include_router(auth_router, prefix="/auth", tags=["auth"])
 app.include_router(audio_router, prefix="/audio", tags=["audio"])
@@ -26,6 +29,8 @@ async def startup_event():
     logger = logging.getLogger(__name__)
     setup_logging(test_mode=False)
     logger.info("Application starting up")
+    instrumentator.expose(app, endpoint="/metrics", include_in_schema=True)
+
 
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request, exc):
