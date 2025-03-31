@@ -80,6 +80,9 @@ cd Audio-FastAPI
 
 ### 2. Создайте .env файл в корне проекта:
 - Пример файла есть в репозитории .env.example
+- Создайте приложение на https://oauth.yandex.ru/
+- Redirect URI для веб-сервисов укажите http://0.0.0.0:8000/auth/callback
+- Добавьте свой YANDEX_CLIENT_ID и YANDEX_CLIENT_SECRET в файл .env
 
 ### 3. Запустите Docker Compose:
 ```bash
