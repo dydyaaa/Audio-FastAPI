@@ -61,7 +61,9 @@
 - **Миграции**: Alembic
 - **Контейнеризация**: Docker и Docker Compose
 - **Зависимости**: Pydantic (валидация), httpx (HTTP-запросы), jose (JWT)
-- **Логирование**: Встроенный модуль Python `logging`
+- **Логирование**: Встроенный модуль Python `logging`, `loki`
+- **Метрики**: `Prometheus`
+- **Визуализация метрик**: `Grafana`
 
 ## Как развернуть через Docker
 
@@ -82,9 +84,9 @@ cd Audio-FastAPI
 
 ### 2. Создайте .env файл в корне проекта:
 - Пример файла есть в репозитории .env.example
-- Создайте приложение на https://oauth.yandex.ru/
-- Redirect URI для веб-сервисов укажите http://0.0.0.0:8000/auth/callback
-- Добавьте свой YANDEX_CLIENT_ID и YANDEX_CLIENT_SECRET в файл .env
+- Создайте приложение на `https://oauth.yandex.ru/`
+- Redirect URI для веб-сервисов укажите `http://0.0.0.0:8000/auth/callback`
+- Добавьте свой `YANDEX_CLIENT_ID` и `YANDEX_CLIENT_SECRET` в файл `.env`
 
 ### 3. Запустите Docker Compose:
 ```bash
@@ -92,7 +94,7 @@ docker compose up --build -d
 ```
 
 ### 4. Проверка
-- Откройте http://localhost:8000/docs для Swagger UI.
+- Откройте `http://localhost:8000/docs` для Swagger UI.
 
 ### 5. Остановка
 ```bash
@@ -105,7 +107,7 @@ docker compose stop
 
 ### Как запустить мониторинг
 
-1. Откройте Grafana в браузере: http://localhost:3000
+1. Откройте Grafana в браузере: `http://localhost:3000`
 - Логин: admin
 - Пароль: admin
 2. Перейдите в Dashboards -> Audio FastAPI Metric
