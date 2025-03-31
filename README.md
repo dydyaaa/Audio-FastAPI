@@ -2,7 +2,9 @@
 ![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-3.1+-lightblue.svg)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16.0+-lightgrey.svg)
-![Версия](https://img.shields.io/badge/Version-0.0.1-blue)
+![Grafana](https://img.shields.io/badge/Grafana-latest-orange)
+![Loki](https://img.shields.io/badge/Loki-latest-yellow)
+![Loki](https://img.shields.io/badge/Prometheus-latest-lightgrey)
 
 Это REST API для загрузки, управления и удаления аудиофайлов с авторизацией через Yandex OAuth. Проект предоставляет функционал для обычных пользователей и суперпользователей, включая управление пользователями и их файлами.
 
@@ -97,8 +99,20 @@ docker compose up --build -d
 docker compose stop
 ```
 
+## Мониторинг и логирование
+
+В проекте настроены метрики и логирование с использованием Grafana, Prometheus и Loki.
+
+### Как запустить мониторинг
+
+1. Откройте Grafana в браузере: http://localhost:3000
+- Логин: admin
+- Пароль: admin
+2. Перейдите в Dashboards -> Audio FastAPI Metric
+3. Следите за метриками
+![Grafana](grafana_example.png)
+
 ## Дальнейшие улучшения
 - Создание авто-тестов
 - Добавление кэширования
 - Интегрирование брокера сообщений 
-- Добавление метрик и их визуализаций
