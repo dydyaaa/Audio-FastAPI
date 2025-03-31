@@ -29,6 +29,8 @@ async def startup_event():
     logger = logging.getLogger(__name__)
     setup_logging(test_mode=False)
     logger.info("Application starting up")
+    instrumentator.expose(app, endpoint="/metrics", include_in_schema=True)
+
 
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request, exc):
