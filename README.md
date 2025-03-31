@@ -16,8 +16,8 @@
          "auth_url": "https://oauth.yandex.ru/authorize?response_type=code&client_id=<your_client_id>"
      }
      ```
-   - Перейдите по этому URL, авторизуйтесь через Yandex и получите код в redirect URL.
-   - Отправьте этот код на `GET /auth/callback/?code=<your_code>`:
+   - Перейдите по этому URL, авторизуйтесь через Yandex и получите jwt token. 
+   - На Windows может быть проблема с редиректом. Необходимо заменить 0.0.0.0 на localhost. Фиксится деплоем на хостинг.
      ```
      {
          "message": "User authorized",
